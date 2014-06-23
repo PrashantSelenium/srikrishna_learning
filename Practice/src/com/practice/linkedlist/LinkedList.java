@@ -258,11 +258,150 @@ class LinkedListIMPL
 	public void reverse ()
 	{
 		Node reverse = null;
-		reverse = recursiveReverse(start, reverse);
-		
-		reverse = loopReverse(start);
+//		reverseList(start);
+		reverseInChunk2(start, 3);
+//		reverse = recursiveReverse(start, reverse);
+//		
+//		reverse = loopReverse(start);
 		
 //		display(reverse);
+	}
+	
+	public void reverseList(Node node)
+	{
+		if (node == null)
+			return;
+			
+		Node head = node;
+		
+		Node temp, next, start;
+		
+		temp = next = start = null;
+		while (head != null)
+		{
+			next = head.getNext();
+			head.setNext(temp);
+			start = temp = head;
+			head = next;
+		}
+		
+		
+		while (start != null)
+		{
+			System.out.println((start.getData()));
+			start = start.getNext();
+		}
+	}
+	
+	public void reverseInChunk1(Node node, int value)
+	{
+		if (node == null)
+			return;
+			
+		Node head = node;
+		Node next, temp, start;
+		
+		next = temp = start = null;
+		int count = 0;
+		boolean first = true;
+		Node tempHead = null;
+		Node prevHead = null;
+		
+		while (head != null)
+		{
+			count = 0;
+			prevHead = head;
+			temp = null;
+			
+			while (head != null && count < value)
+			{
+				next = head.getNext();
+				head.setNext(temp);
+				temp = head;
+				if (first)
+					start = head;
+				head = next;
+				count++;
+			}
+			
+			if (tempHead == null)
+				tempHead = prevHead;
+			else
+			{
+				tempHead.setNext(temp);
+				tempHead = prevHead;
+			}
+			first = false;
+		}
+		
+		while (start != null)
+		{
+			System.out.println((start.getData()));
+			start = start.getNext();
+		}
+	}
+	
+	public void reverseInChunk2(Node node, int value)
+	{
+		if (node == null)
+			return;
+			
+		Node head = node;
+		
+		Node start, temp, next, prevHead, tempHead;
+		boolean firstNode = true;
+		int count = 0;
+		boolean reverse = true;
+		
+		start = temp = next = prevHead = tempHead = null;
+		
+		while (head != null)
+		{
+			
+			temp = null;
+			tempHead = head;
+			count = 0;
+			
+			while (head != null && count < value && reverse)
+			{
+				count ++;
+				next = head.getNext();
+				head.setNext(temp);
+				temp = head;
+				if (firstNode)
+					start = head;
+				head = next;
+			}
+			while (!reverse && count < value && head != null)
+			{
+				count++;
+				temp = head;
+				head = head.getNext();
+			}
+			
+			if (prevHead == null)
+				prevHead = tempHead;
+			else if (reverse)
+			{
+				prevHead.setNext(temp);
+				prevHead = tempHead;
+			}
+			else if (!reverse)
+			{
+				prevHead.setNext(tempHead);
+				prevHead = temp;
+			}
+			
+			reverse = !reverse;
+			
+			firstNode = false;
+		}
+		
+		while (start != null)
+		{
+			System.out.println((start.getData()));
+			start = start.getNext();
+		}
 	}
 	
 	public Node loopReverse(Node start)
@@ -449,16 +588,18 @@ public class LinkedList
 		for (int i = 1; i <= 23; i++)
 			list.insert(i);
 		
+		list.reverse();
+		
 //		list.display();
 		
-		Node n = list.reverseByN(5);
+		/*Node n = list.reverseByN(5);
 		
 		System.out.println("hello");
 		while (n != null)
 		{
 			System.out.print(n.getData()+" ");
 			n = n.getNext();
-		}
+		}*/
 		/*list.search(10);
 		
 		list.insertFirst(12);
